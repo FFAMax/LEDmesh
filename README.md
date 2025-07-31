@@ -143,6 +143,24 @@ OpenWrt SDK used:
 Download:  
 https://downloads.openwrt.org/releases/23.05.5/targets/ipq40xx/chromium/
 
+### 🔸 Public IPv4 Broadcast (Caveats & Possibilities)
+
+If you know the **public IP and subnet mask** of a remote device or network, and it **accepts UDP broadcasts** (rare, but possible in lab setups or custom firewalls), then you can emulate the same behavior remotely.
+
+For example:
+
+- A public IP `203.0.113.10` with subnet mask `/29` (255.255.255.248) gives broadcast: `203.0.113.15`.
+- A message to `203.0.113.15` will be received by any devices listening on port within that subnet.
+
+✅ **Requirements**:
+- The remote device must **not block** incoming broadcast packets.
+- Routers must **allow directed broadcasts** (disabled by default in most production routers).
+- This method can work in **controlled environments**, lab setups, or trusted mesh deployments.
+
+> ⚠️ **Important Note**:  
+> Public internet-wide broadcasting is generally discouraged and filtered by ISPs.  
+> However, **within known routed IPv4 segments**, especially under your own control (VPS mesh, VPN, etc.), this technique can allow for **multi-device coordination across geographic locations** using a single `send`.
+
 ---
 
 ## Update: `control_hsv` Utility
