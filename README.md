@@ -185,6 +185,19 @@ This script is meant to be launched at system boot or via a cron job. It reacts 
 
 The result is a smooth fade from pre-dawn blue into a bright white, mimicking sunrise light conditions.
 
+> 💡 This visual effect is designed to work in **synergy with subtle auditory cues**.  
+> The author uses short beep patterns (1, 2, and 3 beeps) at **05:35, 05:45, and 05:55**, respectively, on a MikroTik router:
+
+```mikrotik
+/system scheduler
+add interval=1d name=alarm5am35 on-event="for i from=1 to=1 step=1 do={beep frequency=2000 length=.01s; delay .2s;}" start-time=05:35:00
+add interval=1d name=alarm5am45 on-event="for i from=1 to=2 step=1 do={beep frequency=2000 length=.01s; delay .2s;}" start-time=05:45:00
+add interval=1d name=alarm5am55 on-event="for i from=1 to=3 step=1 do={beep frequency=2000 length=.01s; delay .2s;}" start-time=05:55:00
+```
+
+These short beeps do **not forcibly wake you**, but gently stimulate the brain, especially in combination with ambient light.  
+This approach allows for **natural awakening during REM** or light sleep stages — a gentler alternative to harsh alarm clocks.
+
 To enable it automatically at boot or every minute, you can set up a cron job on OpenWrt:
 
 ```bash
