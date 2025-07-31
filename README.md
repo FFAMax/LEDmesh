@@ -163,3 +163,69 @@ gcc control_hsv.c -o control_hsv -lm
 ./control_hsv --hue 120 --sat 80 --brightness 60
 ./control_hsv --demo
 ```
+
+---
+
+
+## Update: Sunrise 
+
+## 🌅 Sunrise Simulation
+
+This repository includes two shell scripts designed to simulate the effect of a sunrise using controllable RGB LEDs on Google Wi-Fi devices.
+
+### `sunrise.sh`
+
+This script is meant to be launched at system boot or via a cron job. It reacts to real-world time and simulates the early morning sky colors:
+
+- **05:35 – 05:45**: LEDs gradually increase brightness from 0% to 70% with a cool blue hue (`hue = 210`, `saturation = 100%`).
+- **05:45 – 05:55**: The color transitions from bluish white to full white by:
+  - Decreasing hue from 210° to ~60°
+  - Reducing saturation from 100% to 10%
+  - Increasing brightness from 70% to 100%
+
+The result is a smooth fade from pre-dawn blue into a bright white, mimicking sunrise light conditions.
+
+To enable it automatically at boot or every minute, you can set up a cron job on OpenWrt:
+
+```bash
+# Edit crontab
+crontab -e
+```
+
+Add the following line:
+
+```cron
+* * * * * /root/sunrise.sh
+```
+Or run manually in loop
+```
+while true; do bash sunrise.sh ; sleep 60; done
+```
+
+Make sure the script is executable:
+
+```bash
+chmod +x /root/sunrise.sh
+```
+
+### `sunrise_demo.sh`
+
+This is a **demo version** of the above logic.
+
+Instead of using the current time, it emulates the full 20-minute sunrise cycle in real time — every minute is played back in **1 second**.
+
+This script is ideal for testing the lighting behavior without needing to wait for early morning hours.
+
+```bash
+./sunrise_demo.sh
+```
+
+Each second it prints the emulated time and sends corresponding HSV values to the `control_hsv` binary.
+
+### Requirements
+
+Both scripts require the `control_hsv` utility to be compiled and available in the same folder or in your `$PATH`.
+
+
+---
+
