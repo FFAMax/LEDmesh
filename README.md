@@ -104,3 +104,43 @@ MIT
 ---
 
 Made with 💻, 🛠️, and ⚡ by repurposing Google Wi-Fi hardware.
+
+# Misc
+
+## 📎 QuickHowTo: Cross-compilation for OpenWrt (IPQ40xx / Google Wi-Fi)
+
+To compile the `led_daemon` for Google Wi-Fi or other OpenWrt-compatible IPQ40xx hardware, use the official OpenWrt SDK:
+
+### 🛠️ 1. Download & extract SDK
+
+```bash
+wget https://downloads.openwrt.org/releases/23.05.5/targets/ipq40xx/chromium/openwrt-sdk-23.05.5-ipq40xx-chromium_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz
+tar xf openwrt-sdk-23.05.5-ipq40xx-chromium_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz
+cd openwrt-sdk-23.05.5-ipq40xx-chromium_gcc-12.3.0_musl_eabi.Linux-x86_64
+```
+
+### ⚙️ 2. Set up toolchain environment
+
+```bash
+export STAGING_DIR="$PWD/staging_dir"
+export TOOLCHAIN="$STAGING_DIR/toolchain-arm_cortex-a7+neon-vfpv4_gcc-12.3.0_musl_eabi"
+export PATH="$TOOLCHAIN/bin:$PATH"
+```
+
+### 🧪 3. Compile `led_daemon`
+
+```bash
+arm-openwrt-linux-muslgnueabi-gcc led_daemon.c -o led_daemon
+```
+
+You can then transfer the binary to your OpenWrt device via `scp` and run it.
+
+### 📘 Reference
+
+OpenWrt SDK used:
+**openwrt-sdk-23.05.5-ipq40xx-chromium_gcc-12.3.0_musl_eabi**
+
+Download:  
+https://downloads.openwrt.org/releases/23.05.5/targets/ipq40xx/chromium/
+
+---
