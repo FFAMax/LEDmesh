@@ -144,3 +144,22 @@ Download:
 https://downloads.openwrt.org/releases/23.05.5/targets/ipq40xx/chromium/
 
 ---
+
+## Update: `control_hsv` Utility
+
+A new utility `control_hsv` has been added to the project. This is a standalone CLI tool for sending LED color control packets using HSV (Hue, Saturation, Brightness) input parameters.
+
+### Features:
+- Accepts HSV values from the command line:
+  - `--hue` (0–360 degrees)
+  - `--sat` (0–100 percent)
+  - `--brightness` (0–100 percent)
+- Internally converts HSV to RGB and sends the appropriate UDP broadcast packet to the LED controller.
+- Includes `--demo` mode, which runs a continuous HSV hue sweep (rainbow effect) for testing or demonstration purposes.
+
+### Examples:
+```bash
+gcc control_hsv.c -o control_hsv -lm
+./control_hsv --hue 120 --sat 80 --brightness 60
+./control_hsv --demo
+```
